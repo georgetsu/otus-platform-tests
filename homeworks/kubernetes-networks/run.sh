@@ -5,7 +5,7 @@ export TERM=xterm
 
 download() {
     export KUBECTL_VER="$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)"
-    export KIND_VER="v0.11.1"
+    export KIND_VER="v0.20.0"
 
     # Download kubectl
     curl -L -o /tmp/kubectl https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VER}/bin/linux/amd64/kubectl
@@ -37,7 +37,7 @@ pytest_bootstrap() {
 prepare() {
     export KUBECONFIG="${HOME}/.kube/kind-config-pytest"
     # Create kind cluster
-    kind create cluster --name=pytest --wait 300s -q
+    kind create cluster --name=pytest --wait 600s -q
     # Wait while all components in kube-system namespace will start
     kubectl wait --for=condition=Ready pod --all -n kube-system --timeout=300s
     kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.10.2/manifests/namespace.yaml
